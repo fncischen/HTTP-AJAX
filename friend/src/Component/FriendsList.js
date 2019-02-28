@@ -46,6 +46,21 @@ class FriendsList extends Component {
         console.log("added friends");
     }
 
+    deleteFriend = a_friend => {
+
+        console.log(a_friend);
+
+        axios
+            .delete('http://localhost:5000/friends', {
+                a_friend
+            })
+            .then(console.log("Remove friend"))
+            .catch(err => console.log(err))
+
+        this.setState({friendsList: this.state.friendsList.filter(friend => friend != a_friend)});
+    }
+
+
     handleChanges = e => {
         e.preventDefault();
 
@@ -71,7 +86,7 @@ class FriendsList extends Component {
         return(
             <div className="friendsList">
             {this.state.friendsList.map(friend => 
-                <Friend friend={friend}/>
+                <Friend friend={friend} delete={this.deleteFriend}/>
             )}
 
             <div className="Form">
