@@ -30,18 +30,6 @@ class FriendsList extends Component {
         }
 
         // console.log(axios.get(`http://localhost:5000/friends/?name=${this.state.newName}`).then(response => response.data.filter(friend => friend.name == this.state.newName)));
-
-        if (axios.get(`http://localhost:5000/friends/?name=${this.state.newName}`)) {
-            axios.put('http://localhost:5000/friends', {
-                name: this.state.newName,
-                age: this.state.newAge,
-                email: this.state.newEmail
-            })
-
-            this.setState({friendsList: [this.state.friendsList.filter(friend => friend.name != this.state.newName), newFriend]});
-        }
-        
-        else {
             axios.post('http://localhost:5000/friends', {
                 name: this.state.newName,
                 age: this.state.newAge,
@@ -55,23 +43,24 @@ class FriendsList extends Component {
             })
     
             this.setState({friendsList: [... this.state.friendsList, newFriend]});
-        }
+        
 
         console.log("added friends");
     }
 
-    deleteFriend = a_friend => {
+    deleteFriend = (e, a_friend, a_id) => {
+        e.preventDefault();
 
         console.log(a_friend);
 
         axios
-            .delete('http://localhost:5000/friends', {
-                a_friend
-            })
+            .delete(`http://localhost:5000/friends/:${a_id}`)
             .then(console.log("Remove friend"))
             .catch(err => console.log(err))
 
         this.setState({friendsList: this.state.friendsList.filter(friend => friend != a_friend)});
+
+        console.log(this.state.friendsList);
     }
 
 
@@ -82,13 +71,13 @@ class FriendsList extends Component {
         console.log(this.state);
     }
 
+    // leave question on anon function 
     componentDidMount(){
         axios
             .get("http://localhost:5000/friends")
-            .then( function(response) { 
-                console.log(response);
-                this.setState({friendsList: response.data});
-            }) 
+            .then( response => 
+                this.setState({friendsList: response.data})
+            ) 
             .catch(err => console.log(err));
 
         // response is what we get from browser; 

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 const Friend = (props) => {
-
-    console.log(props.delete)
+    console.log(props.friend);
+    console.log(props.friend.id);
 
     return (
         <div className="friend">
@@ -12,7 +12,7 @@ const Friend = (props) => {
         <li>{props.friend.email}</li>
         </ul>
 
-        <button onClick={() => props.delete(props.friend)}> Delete </button>
+        <button onClick={(e) => props.delete(e, props.friend, props.friend.id)}> Delete </button>
         </div>
     )
 }
