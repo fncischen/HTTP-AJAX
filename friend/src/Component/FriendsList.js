@@ -17,18 +17,23 @@ class FriendsList extends Component {
     }
 
     // add event handler 
-    addFriends() {
+    // https://alligator.io/react/axios-react/
+    addFriends = e => {
+        e.preventDefault();
+
         axios.post('http://localhost:5000/friends', {
             name: this.state.newName,
             age: this.state.newAge,
             email: this.state.newEmail
         })
         .then(function(response) {
-            console.log(response);
+            console.log(response, "Test!");
         })
         .catch(function(error) {
             console.log(error);
         })
+
+        console.log("added friends");
     }
 
     handleChanges = e => {
