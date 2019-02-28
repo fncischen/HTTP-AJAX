@@ -10,9 +10,9 @@ class FriendsList extends Component {
         this.state = {
             friendsList: [],
             // oh wait we don't have to this anymore
-            // newName: "",
-            // newAge: "",
-            // newEmail: ""
+            newName: "",
+            newAge: "",
+            newEmail: ""
         }
     }
 
@@ -20,6 +20,12 @@ class FriendsList extends Component {
     // https://alligator.io/react/axios-react/
     addFriends = e => {
         e.preventDefault();
+
+        const newFriend = {
+            name: this.state.newName,
+            age: this.state.newAge,
+            email: this.state.newEmail
+        }
 
         axios.post('http://localhost:5000/friends', {
             name: this.state.newName,
@@ -33,6 +39,10 @@ class FriendsList extends Component {
             console.log(error);
         })
 
+        this.setState({friendsList: [... this.state.friendsList, newFriend]});
+
+
+
         console.log("added friends");
     }
 
@@ -40,7 +50,7 @@ class FriendsList extends Component {
         e.preventDefault();
 
         this.setState({[e.target.name]: e.target.value});
-        console.log(e.target.name, e.target.value);
+        console.log(this.state);
     }
 
     componentDidMount(){
@@ -66,9 +76,9 @@ class FriendsList extends Component {
 
             <div className="Form">
                 <form onSubmit={this.addFriends}>
-                    <input type="text" value={this.state.newName} onChange={this.handleChanges}></input>
-                    <input type="text" value={this.state.newEmail} onChange={this.handleChanges}></input>
-                    <input type="text" value={this.state.newAge} onChange={this.handleChanges}></input>
+                    <input type="text" name="newName" value={this.state.newName} onChange={this.handleChanges}></input>
+                    <input type="text" name="newEmail" value={this.state.newEmail} onChange={this.handleChanges}></input>
+                    <input type="text" name="newAge" value={this.state.newAge} onChange={this.handleChanges}></input>
 
                     <button type="submit">Submit</button>
                 </form>
