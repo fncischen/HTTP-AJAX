@@ -12,7 +12,10 @@ class FriendsList extends Component {
             // oh wait we don't have to this anymore
             newName: "",
             newAge: "",
-            newEmail: ""
+            newEmail: "",
+            selected_id: "",
+            updatedAge: "",
+            updatedEmail: ""
         }
     }
 
@@ -48,6 +51,20 @@ class FriendsList extends Component {
         console.log("added friends");
     }
 
+    updateFriend = e => {
+        console.log(this.state.selected_id);
+        axios     
+        .put(`http://localhost:5000/friends/${this.state.selected_id}`,
+        {age: this.state.updatedAge,
+        email: this.state.updatedEmail})
+        .then(response => {
+            this.setState({friendsList: response.data})
+         })
+        .catch(err => {
+            console.log(err);
+        });
+    }
+
     deleteFriend = (e, a_friend, a_id) => {
         e.preventDefault();
 
@@ -55,10 +72,8 @@ class FriendsList extends Component {
 
         axios
             .delete(`http://localhost:5000/friends/${a_id}`)
-            .then(console.log("Remove friend"))
+            .then(response => this.setState({friendsList: response.data}))
             .catch(err => console.log(err))
-
-        this.setState({friendsList: this.state.friendsList.filter(friend => friend != a_friend)});
 
         console.log(this.state.friendsList);
     }
@@ -109,14 +124,15 @@ class FriendsList extends Component {
                 <h2> Update existing friends </h2>
 
                     <form onSubmit={this.updateFriend}>
-                    <select name="cars" size="3">
+
+                    <select name="name" value={this.state.selected_id}>
                     {this.state.friendsList.map(friend => 
-                        <option value={friend.id}>{friend.name}</option>
+                        <option name="selected_id" value={friend.id} onChange={this.handleChanges}>{friend.name}</option>
                     )}
                     </select>
                 
-                    <input type="text" name="newEmail" value={this.state.newEmail} onChange={this.handleChanges}></input>
-                    <input type="text" name="newAge" value={this.state.newAge} onChange={this.handleChanges}></input>
+                    <input type="text" name="updatedEmail" value={this.state.updatedEmail} onChange={this.handleChanges}></input>
+                    <input type="text" name="updatedAge" value={this.state.updatedAge} onChange={this.handleChanges}></input>
 
                     <button type="submit">Submit</button>
             </form>
