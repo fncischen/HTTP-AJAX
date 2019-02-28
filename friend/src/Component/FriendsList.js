@@ -83,7 +83,7 @@ class FriendsList extends Component {
         e.preventDefault();
 
         this.setState({[e.target.name]: e.target.value});
-        console.log(this.state);
+        console.log(e.target.name,e.target.value);
     }
 
     // leave question on anon function 
@@ -125,9 +125,9 @@ class FriendsList extends Component {
 
                     <form onSubmit={this.updateFriend}>
 
-                    <select name="name" value={this.state.selected_id}>
+                    <select name="selected_id" onChange={this.handleChanges}>
                     {this.state.friendsList.map(friend => 
-                        <option name="selected_id" value={friend.id} onChange={this.handleChanges}>{friend.name}</option>
+                        <option name="selected_id" value={friend.id}>{friend.name}</option>
                     )}
                     </select>
                 
