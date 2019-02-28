@@ -54,7 +54,7 @@ class FriendsList extends Component {
         console.log(a_friend);
 
         axios
-            .delete(`http://localhost:5000/friends/:${a_id}`)
+            .delete(`http://localhost:5000/friends/${a_id}`)
             .then(console.log("Remove friend"))
             .catch(err => console.log(err))
 
