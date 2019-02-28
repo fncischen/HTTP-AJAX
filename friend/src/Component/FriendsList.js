@@ -105,6 +105,24 @@ class FriendsList extends Component {
                 </form>
             </div>
 
+            <div className="update_form">
+                <h2> Update existing friends </h2>
+
+                    <form onSubmit={this.updateFriend}>
+                    <select name="cars" size="3">
+                    {this.state.friendsList.map(friend => 
+                        <option value={friend.id}>{friend.name}</option>
+                    )}
+                    </select>
+                
+                    <input type="text" name="newEmail" value={this.state.newEmail} onChange={this.handleChanges}></input>
+                    <input type="text" name="newAge" value={this.state.newAge} onChange={this.handleChanges}></input>
+
+                    <button type="submit">Submit</button>
+            </form>
+        
+        </div>
+
             </div>
         );
     }
