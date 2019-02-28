@@ -21,27 +21,41 @@ class FriendsList extends Component {
     addFriends = e => {
         e.preventDefault();
 
+        // condition // is this.state.newName == 
+
         const newFriend = {
             name: this.state.newName,
             age: this.state.newAge,
             email: this.state.newEmail
         }
 
-        axios.post('http://localhost:5000/friends', {
-            name: this.state.newName,
-            age: this.state.newAge,
-            email: this.state.newEmail
-        })
-        .then(function(response) {
-            console.log(response, "Test!");
-        })
-        .catch(function(error) {
-            console.log(error);
-        })
+        // console.log(axios.get(`http://localhost:5000/friends/?name=${this.state.newName}`).then(response => response.data.filter(friend => friend.name == this.state.newName)));
 
-        this.setState({friendsList: [... this.state.friendsList, newFriend]});
+        if (axios.get(`http://localhost:5000/friends/?name=${this.state.newName}`)) {
+            axios.put('http://localhost:5000/friends', {
+                name: this.state.newName,
+                age: this.state.newAge,
+                email: this.state.newEmail
+            })
 
-
+            this.setState({friendsList: [this.state.friendsList.filter(friend => friend.name != this.state.newName), newFriend]});
+        }
+        
+        else {
+            axios.post('http://localhost:5000/friends', {
+                name: this.state.newName,
+                age: this.state.newAge,
+                email: this.state.newEmail
+            })
+            .then(function(response) {
+                console.log(response, "Test!");
+            })
+            .catch(function(error) {
+                console.log(error);
+            })
+    
+            this.setState({friendsList: [... this.state.friendsList, newFriend]});
+        }
 
         console.log("added friends");
     }
@@ -71,7 +85,10 @@ class FriendsList extends Component {
     componentDidMount(){
         axios
             .get("http://localhost:5000/friends")
-            .then( response => this.setState({friendsList: response.data})) 
+            .then( function(response) { 
+                console.log(response);
+                this.setState({friendsList: response.data});
+            }) 
             .catch(err => console.log(err));
 
         // response is what we get from browser; 

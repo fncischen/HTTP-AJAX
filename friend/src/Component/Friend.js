@@ -12,7 +12,7 @@ const Friend = (props) => {
         <li>{props.friend.email}</li>
         </ul>
 
-        <button onClick={() => props.delete(props.friend)} /> 
+        <button onClick={() => props.delete(props.friend)}> Delete </button>
         </div>
     )
 }
