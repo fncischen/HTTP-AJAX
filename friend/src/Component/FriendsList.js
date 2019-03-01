@@ -40,20 +40,16 @@ class FriendsList extends Component {
                 age: this.state.newAge,
                 email: this.state.newEmail
             })
-            .then(function(response) {
-                console.log(response, "Test!");
-            })
-            .catch(function(error) {
-                console.log(error);
-            })
-    
-            this.setState({friendsList: [... this.state.friendsList, newFriend]});
-        
+            .then(response =>
+                this.setState({friendsList: response.data}))
+            .catch(error =>
+                console.log(error)
+            )
 
-        console.log("added friends");
-    }
+        }
 
     updateFriend = e => {
+        e.preventDefault();
         console.log(this.state.selected_id);
         axios     
         .put(`http://localhost:5000/friends/${this.state.selected_id}`,
