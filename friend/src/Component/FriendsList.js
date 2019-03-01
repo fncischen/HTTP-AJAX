@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 import Friend from './Friend';
+import AddFriendForm from "./AddFriendForm";
+import UpdateForm from "./UpdateForm";
 
 class FriendsList extends Component {
     constructor() {
@@ -110,36 +112,10 @@ class FriendsList extends Component {
                 <Friend friend={friend} delete={this.deleteFriend}/>
             )}
 
-            <div className="Form">
-                <form onSubmit={this.addFriends}>
-                    <input type="text" name="newName" value={this.state.newName} onChange={this.handleChanges}></input>
-                    <input type="text" name="newEmail" value={this.state.newEmail} onChange={this.handleChanges}></input>
-                    <input type="text" name="newAge" value={this.state.newAge} onChange={this.handleChanges}></input>
+         <AddFriendForm addFriends={this.addFriends} handleChanges={this.handleChanges}/>   
+         <UpdateForm updateFriend={this.updateFriend} friendsList={this.state.friendsList} handleChanges={this.handleChanges} />
 
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-
-            <div className="update_form">
-                <h2> Update existing friends </h2>
-
-                    <form onSubmit={this.updateFriend}>
-
-                    <select name="selected_id" onChange={this.handleChanges}>
-                    {this.state.friendsList.map(friend => 
-                        <option name="selected_id" value={friend.id}>{friend.name}</option>
-                    )}
-                    </select>
-                
-                    <input type="text" name="updatedEmail" value={this.state.updatedEmail} onChange={this.handleChanges}></input>
-                    <input type="text" name="updatedAge" value={this.state.updatedAge} onChange={this.handleChanges}></input>
-
-                    <button type="submit">Submit</button>
-            </form>
-        
         </div>
-
-            </div>
         );
     }
 }
